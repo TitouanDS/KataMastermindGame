@@ -1,15 +1,11 @@
 const readline = require('readline')
-
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 })
 
-
-  const gameColors = ['red', 'pink', 'blue', 'white', 'green', 'black', 'purple', 'yellow']; //8
-
-  let argsColors = []; //5
-  let codeToCrack = []
+const gameColors = ['red', 'pink', 'blue', 'white', 'green', 'black', 'purple', 'yellow']; //8
+let codeToCrack = []
 
   function initGame(){
       for (let index = 0; index < 5; index++) {
@@ -20,8 +16,9 @@ const rl = readline.createInterface({
   }
 
   function userTurn() {
+    let argsColors = [];
+
     console.log(`Your turn :`)
-    questionsCount = 0;
 
     const question1 = () => {
       return new Promise((resolve, reject) => {
@@ -30,7 +27,8 @@ const rl = readline.createInterface({
             console.log('valid color')
             argsColors.push(colorChoosed)
           }else{
-            console.log(`invalid`)
+            console.log("Error: Please enter a valid input")
+            userTurn()
           }
           resolve()
         });
@@ -44,7 +42,8 @@ const rl = readline.createInterface({
             console.log('valid color')
             argsColors.push(colorChoosed)
           }else{
-            console.log(`invalid`)
+            console.log("Error: Please enter a valid input")
+            userTurn()          
           }
           resolve()
         });
@@ -58,7 +57,8 @@ const rl = readline.createInterface({
             console.log('valid color')
             argsColors.push(colorChoosed)
           }else{
-            console.log(`invalid`)
+            console.log("Error: Please enter a valid input")
+            userTurn()          
           }
           resolve()
         });
@@ -72,7 +72,8 @@ const rl = readline.createInterface({
             console.log('valid color')
             argsColors.push(colorChoosed)
           }else{
-            console.log(`invalid`)
+            console.log("Error: Please enter a valid input")
+            userTurn()          
           }
           resolve()
         });
@@ -86,7 +87,8 @@ const rl = readline.createInterface({
             console.log('valid color')
             argsColors.push(colorChoosed)
           }else{
-            console.log(`invalid`)
+            console.log("Error: Please enter a valid input")
+            userTurn()          
           }
           resolve()
         });
@@ -99,35 +101,49 @@ const rl = readline.createInterface({
       await question3()
       await question4()
       await question5()
-
-      rl.close()
       console.log(argsColors)
       iaTurn(argsColors)
     }
-
     main()
-
   }
 
   function iaTurn(argsColors){
-    
-    if (argsColors === codeToCrack) {
-      console.log("I lost.. snif.. but I’ll get you next time !!! \n")
-    }else{
-      for (let index = 0; index < argsColors.length; index++) {
-        if (argsColors[index] === codeToCrack[index]) {
-          console.log(`${index} - la couleur n°${argsColors[index]} est bien placée !`)
-        }else if (codeToCrack.includes(argsColors[index])) {
-          console.log(`${index} - la couleur ${argsColors[index]} est présente dans le code mais pas à la bonne place.`)
-        } else {
-          console.log(`${index} - la couleur ${argsColors[index]} n'est pas du tout présente.`)
-        }
-        
+    console.log(codeToCrack, 'codeToCrack')
+    let outputViewArr = []
+    let goodPlaceCount = 0
+    let existCount = 0
+    let notGoodPlaceCount = 0
+
+    for (let index = 0; index < argsColors.length; index++) {
+
+      if (argsColors[index] === codeToCrack[index]) {
+        // console.log(`${index + 1} - la couleur ${argsColors[index]} est bien placée !`)
+        goodPlaceCount ++
+        outputViewArr.push('√')
+      }else if (codeToCrack.includes(argsColors[index])) {
+        // console.log(`${index + 1} - la couleur ${argsColors[index]} est présente dans le code mais pas à la bonne place.`)
+        existCount ++
+        outputViewArr.push('≈')
+      } else {
+        // console.log(`${index + 1} - la couleur ${argsColors[index]} n'est pas du tout présente.`)
+        notGoodPlaceCount ++
+        outputViewArr.push('X')
       }
-      console.log("Too bad... Try a new line of colors\n")
-      userTurn()
     }
+
+    if (goodPlaceCount === 5) {
+      console.log("\n")
+      return console.log("I lost.. You're the best... snif.. but I’ll get you next time !!! \n")
+    }
+
+    console.log("\n")
+    console.log(`Couleurs bien placées : ${goodPlaceCount}`)
+    console.log(`Couleurs mal placées : ${existCount}`)
+    console.log(`Couleurs inexistantes : ${notGoodPlaceCount}`)
+    console.log(`The overview of the last round : ${outputViewArr}`)
+    console.log("\n")
+    console.log("∇ ∇ ∇ Too bad... Try a new line of colors ∇ ∇ ∇\n")
+    userTurn()
   }
 
-
-    initGame()
+  initGame()
