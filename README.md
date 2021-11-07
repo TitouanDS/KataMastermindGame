@@ -1,7 +1,7 @@
 # KataMastermindGame
 Création d'un mini jeu "Mastermind" lors d'un processus de recrutement
 
-                                                                      Welcome to my 'Mastermind Game'
+Welcome to my 'Mastermind Game'
 
 The goal of the game is to guess, by successive deductions, the color and position of the 5 pieces chosen beforehand by a very advanced artificial intelligence borrowed from NASA.
 
